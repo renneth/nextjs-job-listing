@@ -6,6 +6,7 @@ This is a small Next.js job board that reads from a local fixture and renders a 
 Live Demo: `https://nextjs-job-listing-psi.vercel.app`
 Live Sitemap: `https://nextjs-job-listing-psi.vercel.app/sitemap.xml`
 Rich Text Result: `https://search.google.com/test/rich-results/result/r%2Fjobs?id=bIN-YVEap0sNaPBGZf3QRQ`
+Lighthouse Report: `/lighthouse-report.pdf`
 
 
 ## Setup
