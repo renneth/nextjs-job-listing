@@ -5,6 +5,7 @@ import jobs from "../data.json";
 type Job = {
 	id: string;
 	title: string;
+	slug: string;
 	location: string;
 	type: string;
 	department: string;
@@ -111,31 +112,33 @@ export default async function Home({
 				<div className="jobs-list" aria-live="polite">
 					{filteredJobs.length > 0 ? (
 						filteredJobs.map((job) => (
-							<article className="job-card" key={job.id}>
-								<div className="job-card__header">
-									<p className="job-card__eyebrow">{job.department}</p>
-									<h2>{job.title}</h2>
-								</div>
+							<Link href={`/jobs/${job.slug}`} key={job.id}>
+								<article className="job-card">
+									<div className="job-card__header">
+										<p className="job-card__eyebrow">{job.department}</p>
+										<h2>{job.title}</h2>
+									</div>
 
-								<dl className="job-card__meta">
-									<div>
-										<dt>Location</dt>
-										<dd>{job.location}</dd>
-									</div>
-									<div>
-										<dt>Type</dt>
-										<dd>{job.type}</dd>
-									</div>
-									<div>
-										<dt>Department</dt>
-										<dd>{job.department}</dd>
-									</div>
-									<div>
-										<dt>Posted</dt>
-										<dd>{formatPostedDate(job.postedDate)}</dd>
-									</div>
-								</dl>
-							</article>
+									<dl className="job-card__meta">
+										<div>
+											<dt>Location</dt>
+											<dd>{job.location}</dd>
+										</div>
+										<div>
+											<dt>Type</dt>
+											<dd>{job.type}</dd>
+										</div>
+										<div>
+											<dt>Department</dt>
+											<dd>{job.department}</dd>
+										</div>
+										<div>
+											<dt>Posted</dt>
+											<dd>{formatPostedDate(job.postedDate)}</dd>
+										</div>
+									</dl>
+								</article>
+							</Link>
 						))
 					) : (
 						<p className="jobs-empty">No roles match the selected filters.</p>
