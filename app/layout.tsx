@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { siteName, siteUrl } from "@/lib/jobs";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://example.com"),
-	title: "Provider Job Listings",
+	metadataBase: new URL(siteUrl),
+	title: {
+		default: siteName,
+		template: `%s | ${siteName}`,
+	},
 	description: "Browse current provider openings across New Zealand.",
+	openGraph: {
+		description: "Browse current provider openings across New Zealand.",
+		locale: "en_NZ",
+		siteName,
+		title: siteName,
+		type: "website",
+		url: siteUrl,
+	},
 };
 
 export default function RootLayout({

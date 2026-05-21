@@ -1,26 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import jobs from "../../../data.json";
+import {
+	buildJobPostingStructuredData,
+	formatClosingDate,
+	formatDisplayDate,
+	formatSalaryRange,
+	getAllJobSlugs,
+	getJobBySlug,
+	siteName,
+} from "@/lib/jobs";
 import ApplyButton from "./apply-button";
-
-type Job = {
-	id: string;
-	title: string;
-	slug: string;
-	location: string;
-	type: string;
-	department: string;
-	postedDate: string;
-	closingDate: string | null;
-	salary: {
-		min: number;
-		max: number;
-		currency: string;
-	};
-	description: string;
-	requirements: string[];
-};
 
 type PageProps = {
 	params: Promise<{
@@ -28,37 +18,9 @@ type PageProps = {
 	}>;
 };
 
-const allJobs = jobs as Job[];
-
-function getJobBySlug(slug: string) {
-	return allJobs.find((job) => job.slug === slug);
-}
-
-function formatDate(value: string) {
-	return new Intl.DateTimeFormat("en-NZ", {
-		day: "numeric",
-		month: "short",
-		year: "numeric",
-	}).format(new Date(value));
-}
-
-function formatClosingDate(value: string | null) {
-	return value ? formatDate(value) : "Open until filled";
-}
-
-function formatSalaryRange(job: Job) {
-	const formatter = new Intl.NumberFormat("en-NZ", {
-		style: "currency",
-		currency: job.salary.currency,
-		maximumFractionDigits: 0,
-	});
-
-	return `${formatter.format(job.salary.min)} - ${formatter.format(job.salary.max)}`;
-}
-
 export function generateStaticParams() {
-	return allJobs.map((job) => ({
-		slug: job.slug,
+	return getAllJobSlugs().map((slug) => ({
+		slug,
 	}));
 }
 
@@ -72,9 +34,20 @@ export async function generateMetadata({
 		notFound();
 	}
 
+	const description = `View details for the ${job.title} role in ${job.location}.`;
+
 	return {
-		title: `${job.title} | Provider Job Listings`,
-		description: `View details for the ${job.title} role in ${job.location}.`,
+		title: job.title,
+		description,
+		alternates: {
+			canonical: `/jobs/${job.slug}`,
+		},
+		openGraph: {
+			description,
+			title: `${job.title} | ${siteName}`,
+			type: "article",
+			url: `/jobs/${job.slug}`,
+		},
 	};
 }
 
@@ -86,14 +59,24 @@ export default async function JobDetailPage({ params }: PageProps) {
 		notFound();
 	}
 
+	const jobPostingStructuredData = buildJobPostingStructuredData(job);
+
 	/* Data flow: resolve the slug once on the server, then render the full record directly from the feed. */
 	return (
 		<main className="job-detail-page">
+			{/* Structured data flow: publish a JobPosting record that matches the visible job detail content. */}
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(jobPostingStructuredData),
+				}}
+			/>
+
 			<section className="job-detail-hero">
 				<div className="job-detail-hero__meta">
-					<span aria-hidden="true">&larr;</span>
-					<Link className="" href="/">
-						<p className="jobs-kicker">Back to all jobs</p>
+					<Link className="job-detail-back" href="/">
+						<span aria-hidden="true">&larr;</span>
+						Back to all jobs
 					</Link>
 				</div>
 				<h1>{job.title}</h1>
@@ -123,7 +106,7 @@ export default async function JobDetailPage({ params }: PageProps) {
 					</div>
 					<div>
 						<dt>Posted</dt>
-						<dd>{formatDate(job.postedDate)}</dd>
+						<dd>{formatDisplayDate(job.postedDate)}</dd>
 					</div>
 					<div>
 						<dt>Closing date</dt>
@@ -167,6 +150,10 @@ export default async function JobDetailPage({ params }: PageProps) {
 							/>
 						</div>
 					</aside>
+				</div>
+
+				<div className="page-meta-link">
+					<Link href="/sitemap.xml">View sitemap</Link>
 				</div>
 			</section>
 		</main>

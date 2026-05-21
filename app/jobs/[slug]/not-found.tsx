@@ -4,6 +4,15 @@ import Link from "next/link";
 export const metadata: Metadata = {
 	title: "404 - Job Not Found",
 	description: "The job you are looking for does not exist.",
+	alternates: {
+		canonical: "/",
+	},
+	openGraph: {
+		description: "The job you are looking for does not exist.",
+		title: "404 - Job Not Found | Provider Job Listings",
+		type: "website",
+		url: "/",
+	},
 };
 
 export default function JobNotFound() {

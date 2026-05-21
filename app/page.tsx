@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import jobs from "../data.json";
-
-type Job = {
-	id: string;
-	title: string;
-	slug: string;
-	location: string;
-	type: string;
-	department: string;
-	postedDate: string;
-};
+import {
+	filterJobs,
+	formatDisplayDate,
+	getDepartmentOptions,
+	getEmploymentTypeOptions,
+	normalizeFilterValue,
+	siteName,
+} from "@/lib/jobs";
 
 type SearchParams = Promise<{
 	department?: string | string[];
@@ -18,28 +15,21 @@ type SearchParams = Promise<{
 }>;
 
 export const metadata: Metadata = {
+	title: siteName,
+	description: "Browse current provider openings across New Zealand.",
 	alternates: {
 		canonical: "/",
 	},
+	openGraph: {
+		description: "Browse current provider openings across New Zealand.",
+		title: siteName,
+		type: "website",
+		url: "/",
+	},
 };
 
-const allJobs = jobs as Job[];
-const departmentOptions = [
-	...new Set(allJobs.map((job) => job.department)),
-].sort();
-const typeOptions = [...new Set(allJobs.map((job) => job.type))].sort();
-
-function getSingleValue(value: string | string[] | undefined) {
-	return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
-}
-
-function formatPostedDate(value: string) {
-	return new Intl.DateTimeFormat("en-NZ", {
-		day: "numeric",
-		month: "short",
-		year: "numeric",
-	}).format(new Date(value));
-}
+const departmentOptions = getDepartmentOptions();
+const typeOptions = getEmploymentTypeOptions();
 
 export default async function Home({
 	searchParams,
@@ -49,15 +39,13 @@ export default async function Home({
 	const resolvedSearchParams = await searchParams;
 
 	/* Filter state flow: read query params once, normalize them, then filter the in-memory dataset. */
-	const selectedDepartment = getSingleValue(resolvedSearchParams.department);
-	const selectedType = getSingleValue(resolvedSearchParams.type);
-
-	const filteredJobs = allJobs.filter((job) => {
-		const matchesDepartment =
-			selectedDepartment === "" || job.department === selectedDepartment;
-		const matchesType = selectedType === "" || job.type === selectedType;
-
-		return matchesDepartment && matchesType;
+	const selectedDepartment = normalizeFilterValue(
+		resolvedSearchParams.department,
+	);
+	const selectedType = normalizeFilterValue(resolvedSearchParams.type);
+	const filteredJobs = filterJobs({
+		department: selectedDepartment,
+		type: selectedType,
 	});
 
 	return (
@@ -134,7 +122,7 @@ export default async function Home({
 										</div>
 										<div>
 											<dt>Posted</dt>
-											<dd>{formatPostedDate(job.postedDate)}</dd>
+											<dd>{formatDisplayDate(job.postedDate)}</dd>
 										</div>
 									</dl>
 								</article>
@@ -143,6 +131,10 @@ export default async function Home({
 					) : (
 						<p className="jobs-empty">No roles match the selected filters.</p>
 					)}
+				</div>
+
+				<div className="page-meta-link">
+					<Link href="/sitemap.xml">View sitemap</Link>
 				</div>
 			</section>
 		</main>
