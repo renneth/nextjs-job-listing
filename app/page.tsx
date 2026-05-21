@@ -1,65 +1,147 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import jobs from "../data.json";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+type Job = {
+	id: string;
+	title: string;
+	location: string;
+	type: string;
+	department: string;
+	postedDate: string;
+};
+
+type SearchParams = Promise<{
+	department?: string | string[];
+	type?: string | string[];
+}>;
+
+export const metadata: Metadata = {
+	alternates: {
+		canonical: "/",
+	},
+};
+
+const allJobs = jobs as Job[];
+const departmentOptions = [
+	...new Set(allJobs.map((job) => job.department)),
+].sort();
+const typeOptions = [...new Set(allJobs.map((job) => job.type))].sort();
+
+function getSingleValue(value: string | string[] | undefined) {
+	return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+}
+
+function formatPostedDate(value: string) {
+	return new Intl.DateTimeFormat("en-NZ", {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+	}).format(new Date(value));
+}
+
+export default async function Home({
+	searchParams,
+}: {
+	searchParams: SearchParams;
+}) {
+	const resolvedSearchParams = await searchParams;
+
+	/* Filter state flow: read query params once, normalize them, then filter the in-memory dataset. */
+	const selectedDepartment = getSingleValue(resolvedSearchParams.department);
+	const selectedType = getSingleValue(resolvedSearchParams.type);
+
+	const filteredJobs = allJobs.filter((job) => {
+		const matchesDepartment =
+			selectedDepartment === "" || job.department === selectedDepartment;
+		const matchesType = selectedType === "" || job.type === selectedType;
+
+		return matchesDepartment && matchesType;
+	});
+
+	return (
+		<main className="jobs-page">
+			<section className="jobs-hero">
+				<p className="jobs-kicker">Provider opportunities</p>
+				<h1>Clinical roles across New Zealand</h1>
+				<p className="jobs-intro">
+					Browse current openings for specialist and primary care providers.
+				</p>
+			</section>
+
+			<section className="jobs-panel">
+				{/* Filter UI flow: submit a native GET form so the selected state stays in the URL. */}
+				<form className="jobs-filters" method="get">
+					<label className="jobs-field">
+						<span>Department</span>
+						<select name="department" defaultValue={selectedDepartment}>
+							<option value="">All departments</option>
+							{departmentOptions.map((department) => (
+								<option key={department} value={department}>
+									{department}
+								</option>
+							))}
+						</select>
+					</label>
+
+					<label className="jobs-field">
+						<span>Employment type</span>
+						<select name="type" defaultValue={selectedType}>
+							<option value="">All types</option>
+							{typeOptions.map((type) => (
+								<option key={type} value={type}>
+									{type}
+								</option>
+							))}
+						</select>
+					</label>
+
+					<div className="jobs-actions">
+						<button type="submit">Apply filters</button>
+						<Link href="/">Clear</Link>
+					</div>
+				</form>
+
+				<p className="jobs-summary">
+					{filteredJobs.length} role{filteredJobs.length === 1 ? "" : "s"}{" "}
+					available
+				</p>
+
+				{/* Listing flow: render only the fields required by the exam prompt. */}
+				<div className="jobs-list" aria-live="polite">
+					{filteredJobs.length > 0 ? (
+						filteredJobs.map((job) => (
+							<article className="job-card" key={job.id}>
+								<div className="job-card__header">
+									<p className="job-card__eyebrow">{job.department}</p>
+									<h2>{job.title}</h2>
+								</div>
+
+								<dl className="job-card__meta">
+									<div>
+										<dt>Location</dt>
+										<dd>{job.location}</dd>
+									</div>
+									<div>
+										<dt>Type</dt>
+										<dd>{job.type}</dd>
+									</div>
+									<div>
+										<dt>Department</dt>
+										<dd>{job.department}</dd>
+									</div>
+									<div>
+										<dt>Posted</dt>
+										<dd>{formatPostedDate(job.postedDate)}</dd>
+									</div>
+								</dl>
+							</article>
+						))
+					) : (
+						<p className="jobs-empty">No roles match the selected filters.</p>
+					)}
+				</div>
+			</section>
+		</main>
+	);
 }

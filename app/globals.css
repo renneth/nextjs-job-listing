@@ -1,26 +1,269 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #f4f8f7;
+	--foreground: #1f3b3a;
+	--surface: #ffffff;
+	--surface-muted: #e6f0ee;
+	--line: #c7d9d4;
+	--line-strong: #9eb9b1;
+	--accent: #0f7b78;
+	--accent-strong: #125e6a;
+	--accent-soft: #d7ece8;
+	--highlight: #f3b37a;
+	--shadow: 0 18px 40px rgba(25, 64, 63, 0.08);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background:
+		radial-gradient(
+			circle at top left,
+			rgba(215, 236, 232, 0.9),
+			transparent 32%
+		),
+		linear-gradient(180deg, #f9fbfb 0%, var(--background) 100%);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+
+a {
+	color: inherit;
+}
+
+button,
+select {
+	font: inherit;
+}
+
+/* Page shell flow: frame the hero and results inside a single centered column. */
+
+.jobs-page {
+	margin: 0 auto;
+	max-width: 1120px;
+	padding: 56px 24px 72px;
+}
+
+.jobs-hero {
+	padding: 28px 0 40px;
+}
+
+.jobs-kicker {
+	color: var(--accent-strong);
+	font-size: 0.76rem;
+	font-weight: 700;
+	letter-spacing: 0.2em;
+	margin: 0 0 14px;
+	text-transform: uppercase;
+}
+
+.jobs-hero h1 {
+	color: #153f4a;
+	font-size: clamp(2.5rem, 4vw, 4.4rem);
+	letter-spacing: -0.04em;
+	line-height: 0.95;
+	margin: 0;
+}
+
+.jobs-intro {
+	color: #406463;
+	font-size: 1.05rem;
+	line-height: 1.7;
+	margin: 18px 0 0;
+	max-width: 42rem;
+}
+
+.jobs-panel {
+	background: rgba(255, 255, 255, 0.82);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(199, 217, 212, 0.9);
+	border-radius: 28px;
+	box-shadow: var(--shadow);
+	padding: 28px;
+}
+
+/* Filter flow: keep the controls obvious and lightweight, without client-side UI complexity. */
+
+.jobs-filters {
+	align-items: end;
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+}
+
+.jobs-field {
+	display: grid;
+	gap: 8px;
+}
+
+.jobs-field span {
+	color: #335856;
+	font-size: 0.92rem;
+	font-weight: 600;
+}
+
+.jobs-field select {
+	appearance: none;
+	background: linear-gradient(180deg, #ffffff 0%, #f4f8f7 100%);
+	border: 1px solid var(--line-strong);
+	border-radius: 14px;
+	color: var(--foreground);
+	min-height: 52px;
+	padding: 0 16px;
+}
+
+.jobs-actions {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+}
+
+.jobs-actions button {
+	background: linear-gradient(
+		135deg,
+		var(--accent) 0%,
+		var(--accent-strong) 100%
+	);
+	border: 0;
+	border-radius: 999px;
+	color: #ffffff;
+	cursor: pointer;
+	min-height: 52px;
+	padding: 0 22px;
+}
+
+.jobs-actions a {
+	color: var(--accent-strong);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.jobs-summary {
+	color: #567674;
+	margin: 18px 0 0;
+}
+
+/* Listing flow: present the required job fields inside restrained cards. */
+
+.jobs-list {
+	display: grid;
+	gap: 16px;
+	margin-top: 24px;
+}
+
+.job-card {
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.98) 0%,
+		rgba(244, 248, 247, 0.98) 100%
+	);
+	border: 1px solid var(--line);
+	border-radius: 22px;
+	padding: 22px;
+}
+
+.job-card__header {
+	border-bottom: 1px solid rgba(199, 217, 212, 0.8);
+	margin-bottom: 18px;
+	padding-bottom: 18px;
+}
+
+.job-card__eyebrow {
+	color: var(--accent);
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	margin: 0 0 10px;
+	text-transform: uppercase;
+}
+
+.job-card h2 {
+	color: #163c46;
+	font-size: 1.5rem;
+	margin: 0;
+}
+
+.job-card__meta {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	margin: 0;
+}
+
+.job-card__meta div {
+	background: var(--surface-muted);
+	border-radius: 16px;
+	padding: 14px 16px;
+}
+
+.job-card__meta dt {
+	color: #517270;
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	margin: 0 0 6px;
+	text-transform: uppercase;
+}
+
+.job-card__meta dd {
+	color: #1c4047;
+	font-size: 1rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.jobs-empty {
+	background: var(--accent-soft);
+	border-radius: 18px;
+	color: #214a49;
+	margin: 0;
+	padding: 18px;
+}
+
+@media (max-width: 860px) {
+	.jobs-filters {
+		grid-template-columns: 1fr;
+	}
+
+	.jobs-actions {
+		justify-content: flex-start;
+	}
+
+	.job-card__meta {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 640px) {
+	.jobs-page {
+		padding: 32px 16px 48px;
+	}
+
+	.jobs-panel {
+		border-radius: 22px;
+		padding: 18px;
+	}
+
+	.jobs-hero h1 {
+		max-width: none;
+	}
+
+	.job-card__meta {
+		grid-template-columns: 1fr;
+	}
 }

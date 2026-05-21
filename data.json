@@ -1,0 +1,107 @@
+[
+	{
+		"id": "JOB-001",
+		"title": "Paediatrician",
+		"slug": "paediatrician",
+		"location": "Auckland, NZ",
+		"type": "Full-time",
+		"department": "Paediatrics",
+		"postedDate": "2026-04-01",
+		"closingDate": "2026-05-15",
+		"salary": {
+			"min": 220000,
+			"max": 280000,
+			"currency": "NZD"
+		},
+		"description": "<p>We are seeking a Consultant Paediatrician to join  our multidisciplinary team delivering specialist child health services  across the Auckland region. You will provide expert assessment, diagnosis,  and management for a broad range of paediatric conditions, and contribute  to clinical governance and teaching.</p>",
+		"requirements": [
+			"Fellowship of the Royal Australasian College of Physicians (FRACP)  or equivalent",
+			"Vocational registration with the Medical Council of New Zealand",
+			"Demonstrated experience in general paediatrics or a paediatric  subspecialty"
+		]
+	},
+	{
+		"id": "JOB-002",
+		"title": "Emergency Medicine Physician",
+		"slug": "emergency-medicine-physician",
+		"location": "Wellington, NZ",
+		"type": "Full-time",
+		"department": "Emergency Medicine",
+		"postedDate": "2026-04-10",
+		"closingDate": null,
+		"salary": {
+			"min": 230000,
+			"max": 290000,
+			"currency": "NZD"
+		},
+		"description": "<p>Join our busy emergency department as a Consultant  Emergency Medicine Physician. You will manage undifferentiated and acutely  unwell patients across all age groups, lead resuscitation efforts, and  support junior medical staff in a high-volume tertiary setting.</p>",
+		"requirements": [
+			"Fellowship of Australasian College for Emergency Medicine (FACEM)  or equivalent",
+			"Current vocational registration with the Medical Council of New  Zealand",
+			"Experience in a tertiary or mixed-level emergency department"
+		]
+	},
+	{
+		"id": "JOB-003",
+		"title": "General Practitioner",
+		"slug": "general-practitioner",
+		"location": "Queenstown, NZ",
+		"type": "Full-time",
+		"department": "Primary Care",
+		"postedDate": "2026-04-15",
+		"closingDate": "2026-06-01",
+		"salary": {
+			"min": 180000,
+			"max": 240000,
+			"currency": "NZD"
+		},
+		"description": "<p>We are looking for a vocationally registered  General Practitioner to join a well-established primary care practice in  Queenstown. You will provide comprehensive, patient-centred care to a  diverse community and have opportunities to develop special clinical  interests.</p>",
+		"requirements": [
+			"Vocational registration as a General Practitioner with the Medical  Council of New Zealand",
+			"Fellowship of the Royal New Zealand College of General  Practitioners (FRNZCGP) or equivalent",
+			"Strong commitment to continuity of care and community health"
+		]
+	},
+	{
+		"id": "JOB-004",
+		"title": "Consultant Anaesthetist",
+		"slug": "consultant-anaesthetist",
+		"location": "Christchurch, NZ",
+		"type": "Full-time",
+		"department": "Anaesthesia",
+		"postedDate": "2026-04-20",
+		"closingDate": "2026-05-30",
+		"salary": {
+			"min": 250000,
+			"max": 320000,
+			"currency": "NZD"
+		},
+		"description": "<p>An exciting opportunity exists for a Consultant  Anaesthetist to join our perioperative team in Christchurch. You will provide anaesthetic services across a range of surgical specialties,  participate in acute pain and obstetric anaesthesia, and contribute to  departmental quality improvement.</p>",
+		"requirements": [
+			"Fellowship of the Australian and New Zealand College of  Anaesthetists (FANZCA) or equivalent",
+			"Vocational registration with the Medical Council of New Zealand",
+			"Broad anaesthetic experience including obstetrics and acute pain  management"
+		]
+	},
+	{
+		"id": "JOB-005",
+		"title": "Psychiatrist",
+		"slug": "psychiatrist",
+		"location": "Remote (NZ)",
+		"type": "Contract",
+		"department": "Mental Health",
+		"postedDate": "2026-04-22",
+		"closingDate": null,
+		"salary": {
+			"min": 210000,
+			"max": 270000,
+			"currency": "NZD"
+		},
+		"description": "<p>We are recruiting a Consultant Psychiatrist to  provide telehealth psychiatric services to patients across rural and  regional New Zealand. You will conduct assessments, manage complex cases,  and work collaboratively with community mental health teams and primary  care providers.</p>",
+		"requirements": [
+			"Fellowship of the Royal Australian and New Zealand College of  Psychiatrists (FRANZCP) or equivalent",
+			"Vocational registration with the Medical Council of New Zealand",
+			"Experience with telehealth delivery and working with rural or  underserved populations"
+		]
+	}
+]
