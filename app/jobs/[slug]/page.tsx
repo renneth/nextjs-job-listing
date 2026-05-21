@@ -151,10 +151,6 @@ export default async function JobDetailPage({ params }: PageProps) {
 						</div>
 					</aside>
 				</div>
-
-				<div className="page-meta-link">
-					<Link href="/sitemap.xml">View sitemap</Link>
-				</div>
 			</section>
 		</main>
 	);

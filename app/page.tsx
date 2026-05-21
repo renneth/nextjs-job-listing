@@ -132,10 +132,6 @@ export default async function Home({
 						<p className="jobs-empty">No roles match the selected filters.</p>
 					)}
 				</div>
-
-				<div className="page-meta-link">
-					<Link href="/sitemap.xml">View sitemap</Link>
-				</div>
 			</section>
 		</main>
 	);
