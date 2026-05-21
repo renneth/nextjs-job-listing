@@ -58,3 +58,6 @@ If I had more time, I would add feed validation, loading and error monitoring, a
 ## Production Readiness Gaps
 
 Before calling this production-ready, it still needs a real feed integration, monitoring, accessibility review, analytics verification, and deployment configuration. It also needs a clear content update strategy, stronger automated tests, and checks for malformed or missing external data.
+
+## AI Usage
+I have used Github Copilot (AI) in various stages particularly with planning and reviewing my implementations. A total of **$0.56** has been spent for the duration of the effor.
