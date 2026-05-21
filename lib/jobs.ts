@@ -1,7 +1,7 @@
 import jobsData from "../data.json";
 
-export const siteName = "Provider Job Listings";
-export const siteUrl = "https://example.com";
+export const siteName = "Job Listings Demo";
+export const siteUrl = "https://nextjs-job-listing-psi.vercel.app";
 
 export type Job = {
 	id: string;

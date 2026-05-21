@@ -3,7 +3,7 @@
 This is a small Next.js job board that reads from a local fixture and renders a listings page plus static job detail pages. It is set up to be easy to run locally without external services.
 
 ## Live Demo
-`https://nextjs-job-listing-git-main-renneths-projects.vercel.app`
+`https://nextjs-job-listing-psi.vercel.app`
 
 ## Setup
 
