@@ -3,10 +3,10 @@
 This is a small Next.js job board that reads from a local fixture and renders a listings page plus static job detail pages. It is set up to be easy to run locally without external services.
 
 ## Links
-Live Demo: `https://nextjs-job-listing-psi.vercel.app`
-Live Sitemap: `https://nextjs-job-listing-psi.vercel.app/sitemap.xml`
-Rich Text Result: `https://search.google.com/test/rich-results/result/r%2Fjobs?id=bIN-YVEap0sNaPBGZf3QRQ`
-Lighthouse Report: `/lighthouse-report.pdf`
+- [Live Demo](https://nextjs-job-listing-psi.vercel.app)
+- [Live Sitemap](https://nextjs-job-listing-psi.vercel.app/sitemap.xml)
+- [Rich Text Result](https://search.google.com/test/rich-results/result/r%2Fjobs?id=bIN-YVEap0sNaPBGZf3QRQ) 
+- [Lighthouse Report](https://nextjs-job-listing-psi.vercel.app/lighthouse-report.pdf)
 
 
 ## Setup
